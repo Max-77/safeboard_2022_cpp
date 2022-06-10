@@ -64,13 +64,17 @@ int main(int argc, char** argv) {
 
                 std::string filepath = file.path().string();
                 int index_of_last_slash = filepath.find_last_of("\\");
+                // get only filename and its extension
                 std::string filename = filepath.erase(0, index_of_last_slash + 1);
 
+                // get las 4 chars of filename+extension to avoid situations like: file.js.exe
                 std::string shorted_filename = filename.erase(0, filename.size() - 4);
 
+                // rebuild filepath to give it as arguments to functions
                 filepath = path_to_dir + "\\" + filepath;
 
                 if ((int) shorted_filename.find("js") > 0) {
+                    // launch scan_js to all js files
                     switch (scan_js(filepath)) {
                         case suspicious_file:
                             count_of_suspicious_js++;
@@ -83,6 +87,7 @@ int main(int argc, char** argv) {
                 }
 
                 if ((int) shorted_filename.find("bat") > 0 || (int) shorted_filename.find("cmd") > 0) {
+                    // launch scan_bat to all bat and cmd files
                     switch (scan_bat(filepath)) {
                         case suspicious_file:
                             count_of_suspicious_bat++;
@@ -95,6 +100,7 @@ int main(int argc, char** argv) {
                 }
 
                 if ((int) shorted_filename.find("exe") > 0 || (int) shorted_filename.find("dll") > 0) {
+                    // launch scan_exe to all exe and dll files
                     switch (scan_exe(filepath)) {
                         case suspicious_file:
                             count_of_suspicious_exe++;
