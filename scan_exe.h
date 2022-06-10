@@ -3,8 +3,8 @@
 #include <iostream>
 #include "return_codes.h"
 
-#ifndef KASPER_CPP_STEP2_SCAN_EXE_H
-#define KASPER_CPP_STEP2_SCAN_EXE_H
+#ifndef SAFEBOARD_CPP_STEP2_SCAN_EXE_H
+#define SAFEBOARD_CPP_STEP2_SCAN_EXE_H
 
 #define suspicious_exe_string_1 "CreateRemoteThread"
 #define suspicious_exe_string_2 "CreateProcess"
@@ -46,4 +46,4 @@ bool scan_exe(std::string filepath){
     return result_of_scanning;
 }
 
-#endif //KASPER_CPP_STEP2_SCAN_EXE_H
+#endif //SAFEBOARD_CPP_STEP2_SCAN_EXE_H

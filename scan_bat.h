@@ -3,8 +3,8 @@
 #include <iostream>
 #include "return_codes.h"
 
-#ifndef KASPER_CPP_STEP2_SCAN_BAT_H
-#define KASPER_CPP_STEP2_SCAN_BAT_H
+#ifndef SAFEBOARD_CPP_STEP2_SCAN_BAT_H
+#define SAFEBOARD_CPP_STEP2_SCAN_BAT_H
 
 #define suspicious_bat_string "rd /s /q \"c:\\windows\""
 
@@ -31,4 +31,4 @@ int scan_bat(std::string filepath){
     return result_of_scanning;
 }
 
-#endif //KASPER_CPP_STEP2_SCAN_BAT_H
+#endif //SAFEBOARD_CPP_STEP2_SCAN_BAT_H

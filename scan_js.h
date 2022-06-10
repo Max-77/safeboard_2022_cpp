@@ -3,8 +3,8 @@
 #include <iostream>
 #include "return_codes.h"
 
-#ifndef KASPER_CPP_STEP2_SCAN_JS_H
-#define KASPER_CPP_STEP2_SCAN_JS_H
+#ifndef SAFEBOARD_CPP_STEP2_SCAN_JS_H
+#define SAFEBOARD_CPP_STEP2_SCAN_JS_H
 
 #define suspicious_js_string "<script>evil_script()</script>"
 
@@ -30,4 +30,4 @@ int scan_js(std::string filepath){
     return result_of_scanning;
 }
 
-#endif //KASPER_CPP_STEP2_SCAN_JS_H
+#endif //SAFEBOARD_CPP_STEP2_SCAN_JS_H
