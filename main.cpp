@@ -1,9 +1,9 @@
 #include <iostream>
 #include <cstring>
 #include <filesystem>
-#include "scan_js.h"
-#include "scan_bat.h"
-#include "scan_exe.h"
+#include "modules/js_scanner/scan_js.h"
+#include "modules/bat_scanner/scan_bat.h"
+#include "modules/exe_scanner/scan_exe.h"
 #include "omp.h"
 #include <ctime>
 
@@ -11,11 +11,11 @@
 
 bool input_dispatcher(int argc, char** argv){
     if (argc!=2){
-        std::cout << "Wrong usage! Use help!" << std::endl;
+        cout << "Wrong usage! Use help!" << endl;
         return false;
     }
-    else if (std::strcmp(argv[1], "help") == 0 ){
-        std::cout << "Usage: >scan_util {path_to_directory}" << std::endl;
+    else if (strcmp(argv[1], "help") == 0 ){
+        cout << "Usage: >scan_util {path_to_directory}" << endl;
         return false;
     }
     return true;
@@ -24,17 +24,17 @@ bool input_dispatcher(int argc, char** argv){
 void print_results(bool code_result, int count_of_files, int count_of_js, int count_of_bat,
                    int count_of_exe, int count_of_errors, time_t time_of_working){
     if (code_result){
-        std::cout << "====== Scan result ======" << std::endl;
-        std::cout << "Processed files: " << count_of_files << std::endl;
-        std::cout << "JS detects: " << count_of_js << std::endl;
-        std::cout << "BAT detects: " << count_of_bat << std::endl;
-        std::cout << "EXE detects: " << count_of_exe << std::endl;
-        std::cout << "Errors: " << count_of_errors << std::endl;
-        std::cout << "Time of working is: " << time_of_working/3600 << "h:"
-        << time_of_working/60 << "m:" << time_of_working << "s"<< std::endl;
+        cout << "====== Scan result ======" << endl;
+        cout << "Processed files: " << count_of_files << endl;
+        cout << "JS detects: " << count_of_js << endl;
+        cout << "BAT detects: " << count_of_bat << endl;
+        cout << "EXE detects: " << count_of_exe << endl;
+        cout << "Errors: " << count_of_errors << endl;
+        cout << "Time of working is: " << time_of_working/3600 << "h:"
+        << time_of_working/60 << "m:" << time_of_working << "s"<< endl;
     }
     else {
-        std::cout << "Not a directory" << std::endl;
+        cout << "Not a directory" << endl;
     }
 }
 
@@ -48,27 +48,27 @@ int main(int argc, char** argv) {
         return 0;
     }
 
-    std::string path_to_dir = argv[1];
+    string path_to_dir = argv[1];
 
     int count_of_files = 0, count_of_suspicious_js = 0,
     count_of_suspicious_bat=0, count_of_suspicious_exe = 0,
     count_of_errors=0;
 
-    bool is_directory_exist = std::filesystem::is_directory(path_to_dir);
+    bool is_directory_exist = filesystem::is_directory(path_to_dir);
 
     if (is_directory_exist) {
 #pragma omp parallel for
         {
-            for (const auto &file: std::filesystem::directory_iterator(path_to_dir)) {
+            for (const auto &file: filesystem::directory_iterator(path_to_dir)) {
                 count_of_files++;
 
-                std::string filepath = file.path().string();
+                string filepath = file.path().string();
                 int index_of_last_slash = filepath.find_last_of("\\");
                 // get only filename and its extension
-                std::string filename = filepath.erase(0, index_of_last_slash + 1);
+                string filename = filepath.erase(0, index_of_last_slash + 1);
 
                 // get las 4 chars of filename+extension to avoid situations like: file.js.exe
-                std::string shorted_filename = filename.erase(0, filename.size() - 4);
+                string shorted_filename = filename.erase(0, filename.size() - 4);
 
                 // rebuild filepath to give it as arguments to functions
                 filepath = path_to_dir + "\\" + filepath;
@@ -79,7 +79,7 @@ int main(int argc, char** argv) {
                         case suspicious_file:
                             count_of_suspicious_js++;
                             break;
-                        case error_code:
+                        case error_code_:
                             count_of_errors++;
                             break;
                     }
@@ -92,7 +92,7 @@ int main(int argc, char** argv) {
                         case suspicious_file:
                             count_of_suspicious_bat++;
                             break;
-                        case error_code:
+                        case error_code_:
                             count_of_errors++;
                             break;
                     }
@@ -105,7 +105,7 @@ int main(int argc, char** argv) {
                         case suspicious_file:
                             count_of_suspicious_exe++;
                             break;
-                        case error_code:
+                        case error_code_:
                             count_of_errors++;
                             break;
                     }
